@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.env
+venv/
+.venv/
+
+# Données brutes (trop lourdes pour GitHub)
+data/raw/
+data/validated/
+
+# Credentials AWS (JAMAIS sur GitHub)
+*.csv.credentials
+.aws/
+
+# Great Expectations (généré automatiquement)
+great_expectations/uncommitted/
+
+# Divers
+.DS_Store
+*.log
