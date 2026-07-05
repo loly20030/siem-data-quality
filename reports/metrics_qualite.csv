@@ -1,0 +1,11 @@
+timestamp,regle,description,colonne,succes,pct_valide,pct_erreur,nb_erreurs,score_global,categorie
+2026-07-02T11:46:54.791403,R01,EventID ne doit pas être vide,EventID,True,100.0,0.0,0,70.0,Complétude
+2026-07-02T11:46:54.791403,R02,Computer ne doit pas être vide,Computer,True,100.0,0.0,0,70.0,Complétude
+2026-07-02T11:46:54.791403,R03,Channel ne doit pas être vide,Channel,True,100.0,0.0,0,70.0,Complétude
+2026-07-02T11:46:54.791403,R04,EventID doit être entre 1 et 65535,EventID,True,100.0,0.0,0,70.0,Validité
+2026-07-02T11:46:54.791403,R05,Channel doit être dans la liste des canaux connus,Channel,True,100.0,0.0,0,70.0,Validité
+2026-07-02T11:46:54.791403,R06,SystemTime ne doit pas être vide,SystemTime,False,92.33757824303906,7.66,355,70.0,Complétude
+2026-07-02T11:46:54.791403,R07,SystemTime doit être une date valide,SystemTime,False,92.34,7.66,355,70.0,Format
+2026-07-02T11:46:54.791403,R08,"Pas de doublons sur (EventID, SystemTime, Computer)",EventID+SystemTime+Computer,False,70.43,29.57,1370,70.0,Unicité
+2026-07-02T11:46:54.791403,R09,EVTX_Tactic (tactique d'attaque) ne doit pas être vide,EVTX_Tactic,True,100.0,0.0,0,70.0,Complétude
+2026-07-02T11:46:54.791403,R10,Level doit être entre 0 et 5,Level,True,100.0,0.0,0,70.0,Validité
