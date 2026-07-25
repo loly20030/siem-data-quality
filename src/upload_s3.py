@@ -1,5 +1,6 @@
 """
-Semaine 2 — Chargement des données nettoyées vers AWS S3
+Semaine 2 améliorée — Stockage organisé sur AWS S3
+Structure : raw/ validated/ reports/ metrics/
 """
 
 import boto3
@@ -7,53 +8,65 @@ import pandas as pd
 import os
 
 # ─── Configuration ───────────────────────────────────────────
-BUCKET_NAME  = "siem-data-quality-groupe5"  # ton nom exact de bucket
-FICHIER_LOCAL = "data/validated/logs_clean.csv"
-CLE_S3_RAW   = "raw/logs_clean.csv"
-CLE_S3_INFO  = "raw/dataset_info.txt"
+BUCKET = "siem-data-quality-groupe5"
 
-def upload_fichier(s3_client, chemin_local, bucket, cle_s3):
-    """Upload un fichier local vers S3."""
-    print(f"Upload : {chemin_local} → s3://{bucket}/{cle_s3}")
-    s3_client.upload_file(chemin_local, bucket, cle_s3)
-    print(f"  OK !")
+# Fichiers à uploader avec leur destination S3
+FICHIERS = {
+    # Données brutes
+    "data/validated/logs_clean.csv":          "validated/logs_clean.csv",
+    # Rapports
+    "reports/quality_report.html":            "reports/quality_report.html",
+    "reports/quality_report.json":            "reports/quality_report.json",
+    # Métriques Power BI
+    "reports/metrics_qualite.csv":            "metrics/metrics_qualite.csv",
+    "reports/metriques_tactique.csv":         "metrics/metriques_tactique.csv",
+    "reports/metriques_canal.csv":            "metrics/metriques_canal.csv",
+    "reports/metrics_qualite.parquet":        "metrics/metrics_qualite.parquet",
+}
 
-def generer_info(df, chemin):
-    """Génère un fichier texte résumant le dataset."""
-    with open(chemin, "w") as f:
-        f.write("=== SIEM Data Quality — Résumé du dataset ===\n\n")
-        f.write(f"Lignes        : {len(df)}\n")
-        f.write(f"Colonnes      : {len(df.columns)}\n")
-        f.write(f"Colonnes      : {list(df.columns)}\n\n")
-        f.write(f"EventID uniques : {df['EventID'].nunique()}\n")
-        systime = pd.to_datetime(df['SystemTime'], errors='coerce')
-        f.write(f"Période       : {systime.min()} → {systime.max()}\n")
-        f.write(f"Tactiques     : {df['EVTX_Tactic'].unique().tolist()}\n")
-        print(f"Fichier info généré : {chemin}")
+def upload_tous_les_fichiers(s3, fichiers, bucket):
+    print(f"\nUpload vers s3://{bucket}/\n")
+    ok = 0
+    ko = 0
+    for local, distant in fichiers.items():
+        if os.path.exists(local):
+            try:
+                s3.upload_file(local, bucket, distant)
+                taille = os.path.getsize(local) / 1024
+                print(f"  ✅ {distant:<45} {taille:.1f} Ko")
+                ok += 1
+            except Exception as e:
+                print(f"  ❌ {distant} — Erreur : {e}")
+                ko += 1
+        else:
+            print(f"  ⚠️  {local} — Fichier introuvable, ignoré")
+    print(f"\n  {ok} fichiers uploadés, {ko} erreurs")
+
+def afficher_contenu_bucket(s3, bucket):
+    print(f"\nContenu complet de s3://{bucket}/\n")
+    response = s3.list_objects_v2(Bucket=bucket)
+    dossiers = {}
+    for obj in response.get("Contents", []):
+        dossier = obj["Key"].split("/")[0]
+        if dossier not in dossiers:
+            dossiers[dossier] = []
+        dossiers[dossier].append({
+            "fichier": obj["Key"],
+            "taille":  obj["Size"] / 1024
+        })
+    for dossier, fichiers in dossiers.items():
+        print(f"  📁 {dossier}/")
+        for f in fichiers:
+            print(f"     {f['fichier']:<50} {f['taille']:.1f} Ko")
 
 if __name__ == "__main__":
-
-    # 1. Charger le CSV nettoyé
-    print("Chargement du CSV nettoyé...")
-    df = pd.read_csv(FICHIER_LOCAL)
-    print(f"  {len(df)} lignes chargées")
-
-    # 2. Générer le fichier info
-    generer_info(df, "data/validated/dataset_info.txt")
-
-    # 3. Connexion S3
-    print("\nConnexion à S3...")
+    print("Connexion à AWS S3...")
     s3 = boto3.client("s3")
 
-    # 4. Upload des fichiers
-    upload_fichier(s3, FICHIER_LOCAL, BUCKET_NAME, CLE_S3_RAW)
-    upload_fichier(s3, "data/validated/dataset_info.txt", BUCKET_NAME, CLE_S3_INFO)
+    # Upload de tous les fichiers
+    upload_tous_les_fichiers(s3, FICHIERS, BUCKET)
 
-    # 5. Vérifier ce qui est dans le bucket
-    print("\nContenu du bucket S3 :")
-    response = s3.list_objects_v2(Bucket=BUCKET_NAME)
-    for obj in response.get("Contents", []):
-        taille = obj["Size"] / 1024
-        print(f"  {obj['Key']:<40} {taille:.1f} Ko")
+    # Afficher le contenu final du bucket
+    afficher_contenu_bucket(s3, BUCKET)
 
-    print("\nSemaine 2 terminée — données sur S3 !")
+    print("\nCloud S3 organisé et à jour !")
