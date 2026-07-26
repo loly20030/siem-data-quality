@@ -1,0 +1,143 @@
+{
+  "timestamp": "2026-07-26T09:42:53.483400",
+  "nb_regles": 15,
+  "nb_ok": 12,
+  "score_global": 80.0,
+  "resultats": [
+    {
+      "regle": "R01",
+      "description": "EventID ne doit pas être vide",
+      "colonne": "EventID",
+      "succes": true,
+      "pct_valide": 100.0,
+      "nb_erreurs": 0,
+      "categorie": "Complétude"
+    },
+    {
+      "regle": "R02",
+      "description": "Computer ne doit pas être vide",
+      "colonne": "Computer",
+      "succes": true,
+      "pct_valide": 100.0,
+      "nb_erreurs": 0,
+      "categorie": "Complétude"
+    },
+    {
+      "regle": "R03",
+      "description": "Channel ne doit pas être vide",
+      "colonne": "Channel",
+      "succes": true,
+      "pct_valide": 100.0,
+      "nb_erreurs": 0,
+      "categorie": "Complétude"
+    },
+    {
+      "regle": "R04",
+      "description": "EventID doit être entre 1 et 65535",
+      "colonne": "EventID",
+      "succes": true,
+      "pct_valide": 100.0,
+      "nb_erreurs": 0,
+      "categorie": "Validité"
+    },
+    {
+      "regle": "R05",
+      "description": "Channel doit être dans la liste des canaux connus",
+      "colonne": "Channel",
+      "succes": true,
+      "pct_valide": 100.0,
+      "nb_erreurs": 0,
+      "categorie": "Validité"
+    },
+    {
+      "regle": "R06",
+      "description": "SystemTime ne doit pas être vide",
+      "colonne": "SystemTime",
+      "succes": false,
+      "pct_valide": 92.33757824303906,
+      "nb_erreurs": 355,
+      "categorie": "Complétude"
+    },
+    {
+      "regle": "R07",
+      "description": "SystemTime doit être une date valide",
+      "colonne": "SystemTime",
+      "succes": false,
+      "pct_valide": 92.34,
+      "nb_erreurs": 355,
+      "categorie": "Format"
+    },
+    {
+      "regle": "R08",
+      "description": "Pas de doublons sur (EventID, SystemTime, Computer)",
+      "colonne": "EventID+SystemTime+Computer",
+      "succes": false,
+      "pct_valide": 70.43,
+      "nb_erreurs": 1370,
+      "categorie": "Unicité"
+    },
+    {
+      "regle": "R09",
+      "description": "EVTX_Tactic ne doit pas être vide",
+      "colonne": "EVTX_Tactic",
+      "succes": true,
+      "pct_valide": 100.0,
+      "nb_erreurs": 0,
+      "categorie": "Complétude"
+    },
+    {
+      "regle": "R10",
+      "description": "Level doit être entre 0 et 5",
+      "colonne": "Level",
+      "succes": true,
+      "pct_valide": 100.0,
+      "nb_erreurs": 0,
+      "categorie": "Validité"
+    },
+    {
+      "regle": "R11",
+      "description": "Computer ne contient pas de caractères invalides",
+      "colonne": "Computer",
+      "succes": true,
+      "pct_valide": 100.0,
+      "nb_erreurs": 0,
+      "categorie": "Validité"
+    },
+    {
+      "regle": "R12",
+      "description": "ProcessID doit être un nombre positif",
+      "colonne": "ProcessID",
+      "succes": true,
+      "pct_valide": 100.0,
+      "nb_erreurs": 0,
+      "categorie": "Validité"
+    },
+    {
+      "regle": "R13",
+      "description": "ProviderName ne doit pas être vide",
+      "colonne": "ProviderName",
+      "succes": true,
+      "pct_valide": 100.0,
+      "nb_erreurs": 0,
+      "categorie": "Complétude"
+    },
+    {
+      "regle": "R14",
+      "description": "EventRecordID unique par fichier source",
+      "colonne": "EventRecordID",
+      "succes": true,
+      "pct_valide": 100.0,
+      "nb_erreurs": 0,
+      "categorie": "Unicité"
+    },
+    {
+      "regle": "R15",
+      "description": "Level ne doit pas être vide",
+      "colonne": "Level",
+      "succes": true,
+      "pct_valide": 100.0,
+      "nb_erreurs": 0,
+      "categorie": "Complétude"
+    }
+  ]
+}
