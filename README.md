@@ -1,3 +1,7 @@
+Tu as raison, c'est plus simple ! Voici ton **README.md complet corrigé** en un seul bloc.  
+Tu peux **remplacer tout le contenu** de ton fichier par celui-ci.
+
+```markdown
 # 🛡️ SIEM Data Quality — Groupe 5
 
 Système automatisé de contrôle de la qualité sur des logs Windows
@@ -15,46 +19,54 @@ et stocke les données sur AWS S3.
 ---
 
 ## 🏗️ Architecture
+
+```
 EVTX-ATTACK-SAMPLES (GitHub)
 ↓
 parse_evtx.py — Parsing & nettoyage
-↓
-upload_s3.py — Stockage AWS S3
 ↓
 quality_checks.py — 15 règles Great Expectations
 ↓
 generate_report.py — Rapport HTML interactif
 ↓
 export_metrics.py — CSV/Parquet pour Power BI
+↓
+upload_s3.py — Stockage AWS S3 (logs validés + rapports + métriques)
+```
+
 ---
 
 ## 🗂️ Structure du projet
+
+```
 siem-data-quality/
 ├── src/
-│ ├── parse_evtx.py # Parsing et nettoyage des logs
-│ ├── upload_s3.py # Upload vers AWS S3
-│ ├── quality_checks.py # 15 règles Great Expectations
-│ ├── generate_report.py # Rapport HTML interactif
-│ ├── export_metrics.py # Export CSV/Parquet Power BI
-│ └── pipeline.py # Pipeline automatisé complet
+│   ├── parse_evtx.py        # Parsing et nettoyage des logs
+│   ├── upload_s3.py         # Upload vers AWS S3
+│   ├── quality_checks.py    # 15 règles Great Expectations
+│   ├── generate_report.py   # Rapport HTML interactif
+│   ├── export_metrics.py    # Export CSV/Parquet Power BI
+│   └── pipeline.py          # Pipeline automatisé complet
 ├── data/
-│ ├── raw/ # Dataset EVTX-ATTACK-SAMPLES
-│ └── validated/ # Logs nettoyés (4633 lignes)
+│   ├── raw/                 # Dataset EVTX-ATTACK-SAMPLES
+│   └── validated/           # Logs nettoyés (4633 lignes)
 ├── reports/
-│ ├── quality_report.html # Rapport HTML interactif
-│ ├── quality_report.json # Résultats JSON
-│ ├── metrics_qualite.csv # Métriques Power BI
-│ ├── metriques_tactique.csv
-│ ├── metriques_canal.csv
-│ └── pipeline.log # Log d'exécution
-├── dashboard/ # Fichier Power BI (.pbix)
+│   ├── quality_report.html  # Rapport HTML interactif
+│   ├── quality_report.json  # Résultats JSON
+│   ├── metrics_qualite.csv  # Métriques Power BI
+│   ├── metriques_tactique.csv
+│   ├── metriques_canal.csv
+│   └── pipeline.log         # Log d'exécution
+├── dashboard/               # Fichier Power BI (.pbix)
 ├── docs/
-│ ├── rapport_siem.tex # Rapport LaTeX
-│ └── guide_demarrage_projet.md
-├── great_expectations/ # Configuration GE
+│   ├── rapport_siem.tex     # Rapport LaTeX
+│   └── guide_demarrage_projet.md
+├── great_expectations/      # Configuration GE
 ├── .gitignore
 ├── requirements.txt
 └── README.md
+```
+
 ---
 
 ## 📊 Dataset
@@ -111,11 +123,11 @@ python src/pipeline.py
 
 ### Ou étape par étape
 ```bash
-python src/parse_evtx.py       # Parsing
-python src/upload_s3.py        # S3
-python src/quality_checks.py   # GE
-python src/generate_report.py  # HTML
-python src/export_metrics.py   # CSV
+python src/parse_evtx.py       # Parsing & nettoyage
+python src/quality_checks.py   # GE — 15 règles de qualité
+python src/generate_report.py  # Rapport HTML interactif
+python src/export_metrics.py   # Export CSV/Parquet pour Power BI
+python src/upload_s3.py        # Upload final vers AWS S3
 ```
 
 ### Ouvrir le rapport HTML
@@ -152,13 +164,21 @@ xdg-open reports/quality_report.html
 ## ☁️ AWS S3
 
 Bucket : `siem-data-quality-groupe5` (eu-north-1)
+
+```
 s3://siem-data-quality-groupe5/
-├── validated/ ← logs nettoyés
-├── reports/ ← rapports HTML et JSON
-├── metrics/ ← CSV pour Power BI
-└── raw/ ← données brutes
+├── validated/   ← logs nettoyés
+├── reports/     ← rapports HTML et JSON
+├── metrics/     ← CSV pour Power BI
+└── raw/         ← données brutes
+```
+
 ---
 
 ## 👥 Groupe 5
 
 Projet Data Engineering — 2026
+```
+
+---
+
