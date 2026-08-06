@@ -211,6 +211,8 @@ def generer_html(rapport, graphiques):
     nb_ok = rapport["nb_ok"]
     nb_ko = rapport["nb_regles"] - nb_ok
     nb_total = rapport["nb_regles"]
+    nb_enregistrements = rapport.get("nb_enregistrements", 0)
+    nb_anomalies = rapport.get("nb_anomalies", 0)
     couleur_score = "#27ae60" if score >= 80 else \
                     "#f39c12" if score >= 60 else "#e74c3c"
     mention = "Bonne qualité ✓" if score >= 80 else \
@@ -278,7 +280,7 @@ def generer_html(rapport, graphiques):
   <h1>📊 Rapport de Qualité des Données — SIEM Simplifié</h1>
   <p>Groupe 5 &nbsp;|&nbsp; Dataset : EVTX-ATTACK-SAMPLES &nbsp;|&nbsp;
      Généré le {datetime.now().strftime('%d/%m/%Y à %H:%M')} &nbsp;|&nbsp;
-     4 633 enregistrements · 15 règles de qualité</p>
+     {f'{nb_enregistrements:,}'.replace(',', ' ')} enregistrements · {nb_total} règles de qualité</p>
 </div>
 
 <div class="container">
@@ -302,11 +304,11 @@ def generer_html(rapport, graphiques):
       <div class="lbl">Règles Totales</div>
     </div>
     <div class="card">
-      <div class="val" style="color:#9b59b6;">4 633</div>
+      <div class="val" style="color:#9b59b6;">{f'{nb_enregistrements:,}'.replace(',', ' ')}</div>
       <div class="lbl">Enregistrements</div>
     </div>
     <div class="card">
-      <div class="val" style="color:#e67e22;">1 725</div>
+      <div class="val" style="color:#e67e22;">{f'{nb_anomalies:,}'.replace(',', ' ')}</div>
       <div class="lbl">Anomalies Détectées</div>
     </div>
   </div>

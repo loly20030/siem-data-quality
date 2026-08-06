@@ -1,8 +1,10 @@
 {
-  "timestamp": "2026-07-26T09:42:53.483400",
+  "timestamp": "2026-08-06T22:38:18.077376",
   "nb_regles": 15,
   "nb_ok": 12,
   "score_global": 80.0,
+  "nb_enregistrements": 4633,
+  "nb_anomalies": 2080,
   "resultats": [
     {
       "regle": "R01",

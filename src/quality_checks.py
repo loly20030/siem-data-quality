@@ -118,7 +118,7 @@ def afficher_resultats(resultats):
         print(f"  {r['regle']:<6} {r['description']:<45} {r['pct_valide']:>7.1f}% {r['nb_erreurs']:>8} {statut}")
     print(f"\n {nb_ok} règles passées, {nb_ko} règles échouées")
 
-def sauvegarder_rapport(resultats, chemin):
+def sauvegarder_rapport(resultats, chemin, nb_enregistrements):
     os.makedirs(os.path.dirname(chemin), exist_ok=True)
     resultats_clean = []
     for r in resultats:
@@ -132,19 +132,26 @@ def sauvegarder_rapport(resultats, chemin):
             "categorie":   categoriser_regle(str(r["regle"]))
         })
     nb_ok = sum(1 for r in resultats_clean if r["succes"])
+    # Total d'anomalies = somme des erreurs détectées sur les 15 règles
+    # (une même ligne peut être comptée plusieurs fois si elle enfreint
+    # plusieurs règles à la fois — c'est le nombre d'ANOMALIES, pas de lignes)
+    nb_anomalies = sum(r["nb_erreurs"] for r in resultats_clean)
     rapport = {
-        "timestamp":    datetime.now().isoformat(),
-        "nb_regles":    len(resultats_clean),
-        "nb_ok":        nb_ok,
-        "score_global": round(nb_ok / len(resultats_clean) * 100, 2),
-        "resultats":    resultats_clean
+        "timestamp":          datetime.now().isoformat(),
+        "nb_regles":          len(resultats_clean),
+        "nb_ok":              nb_ok,
+        "score_global":       round(nb_ok / len(resultats_clean) * 100, 2),
+        "nb_enregistrements": int(nb_enregistrements),
+        "nb_anomalies":       int(nb_anomalies),
+        "resultats":          resultats_clean
     }
     with open(chemin, "w") as f:
         json.dump(rapport, f, indent=2, ensure_ascii=False)
     print(f"\nRapport JSON sauvegardé : {chemin}")
+    print(f"  {nb_enregistrements} enregistrements, {nb_anomalies} anomalies détectées")
 
 if __name__ == "__main__":
     df = charger_donnees(FICHIER_LOGS)
     resultats = appliquer_regles(df)
     afficher_resultats(resultats)
-    sauvegarder_rapport(resultats, RAPPORT_JSON)
+    sauvegarder_rapport(resultats, RAPPORT_JSON, nb_enregistrements=len(df))
