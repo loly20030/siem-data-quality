@@ -12,7 +12,8 @@ BUCKET = "siem-data-quality-groupe5"
 
 # Fichiers à uploader avec leur destination S3
 FICHIERS = {
-    # Données brutes
+    # Logs nettoyés (les données brutes sont uploadées une seule fois,
+    # manuellement, vers raw/ — elles ne changent pas d'un run à l'autre)
     "data/validated/logs_clean.csv":          "validated/logs_clean.csv",
     # Rapports
     "reports/quality_report.html":            "reports/quality_report.html",

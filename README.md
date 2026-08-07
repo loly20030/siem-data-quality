@@ -168,10 +168,10 @@ Bucket : `siem-data-quality-groupe5` (eu-north-1)
 
 ```
 s3://siem-data-quality-groupe5/
-├── validated/   ← logs nettoyés
-├── reports/     ← rapports HTML et JSON
-├── metrics/     ← CSV pour Power BI
-└── raw/         ← données brutes
+├── validated/   ← logs nettoyés (mis à jour à chaque run du pipeline)
+├── reports/     ← rapports HTML et JSON (mis à jour à chaque run)
+├── metrics/     ← CSV pour Power BI (mis à jour à chaque run)
+└── raw/         ← données brutes (upload manuel unique, ne change pas)
 ```
 
 ---
