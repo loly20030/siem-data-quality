@@ -16,7 +16,7 @@ EXPORT_PARQUET  = "reports/metrics_qualite.parquet"
 
 def exporter_metriques_regles(rapport):
     """
-    Transforme les résultats des 10 règles en DataFrame exportable.
+    Transforme les résultats des 15 règles en DataFrame exportable.
     C'est ce que Power BI va lire pour le dashboard.
     """
     lignes = []
@@ -47,7 +47,12 @@ def categoriser_regle(regle):
         "R07": "Format",
         "R08": "Unicité",
         "R09": "Complétude",
-        "R10": "Validité"
+        "R10": "Validité",
+        "R11": "Validité",
+        "R12": "Validité",
+        "R13": "Complétude",
+        "R14": "Unicité",
+        "R15": "Complétude"
     }
     return categories.get(regle, "Autre")
 
